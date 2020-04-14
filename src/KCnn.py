@@ -11,8 +11,8 @@ mnist = np.load("../dataset/mnist.npz")
 X_train, y_train, X_test, y_test = mnist['x_train'], mnist['y_train'], mnist['x_test'], mnist['y_test']
 
 #data pre-processing
-X_train = X_train.reshape(-1,1,28,28)/255 #第二个1表示只有一个channel，黑白照片
-X_test = X_test.reshape(-1,1,28,28)/255
+X_train = X_train.reshape(-1,28,28,1)/255 #最后一个1表示只有一个channel，黑白照片
+X_test = X_test.reshape(-1,28,28,1)/255
 
 #使用keras编写的np_utils，把标签分为10类，每一类都用10位二进制表示，某一位为1其他为0
 y_train = np_utils.to_categorical(y_train,num_classes=10)
@@ -25,7 +25,7 @@ model.add(Convolution2D(
     filters=32,#滤波器的个数;每个滤波器会生成一个feature的图片，之后的图片会是32层
     kernel_size=5,#滤波器的长宽都为5个像素
     padding='same',#padding的模式
-    batch_input_shape=(None,1,28,28),#输入的大小
+    batch_input_shape=(None,28,28,1),#输入的大小; Keras默认是channels_last
     strides=1,#过滤器移动的步长
 ))
 
